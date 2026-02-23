@@ -4,7 +4,7 @@ def test_delete_participant_success(client):
     email = "deleteuser@mergington.edu"
     client.post(f"/activities/{activity}/signup?email={email}")
     # Act
-    response = client.delete(f"/activities/{activity}/signup?email={email}")
+    response = client.delete(f"/activities/{activity}/signup", params={"email": email})
     # Assert
     assert response.status_code == 200
     assert "message" in response.json()
@@ -15,7 +15,7 @@ def test_delete_participant_not_found(client):
     activity = "Chess Club"
     email = "nonexistent@mergington.edu"
     # Act
-    response = client.delete(f"/activities/{activity}/signup?email={email}")
+    response = client.delete(f"/activities/{activity}/signup", params={"email": email})
     # Assert
     assert response.status_code == 404
     assert response.json()["detail"] == "Student not found in activity"
